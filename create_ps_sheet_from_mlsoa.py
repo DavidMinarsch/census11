@@ -86,3 +86,5 @@ census_11_str.N = census_11_str.N.astype(int)
 
 census_11.to_csv("/Users/davidminarsch/Desktop/Census11/census_11_pc16_four_way_joint_distribution.csv", index=False)
 census_11_str.to_csv("/Users/davidminarsch/Desktop/Census11/census_11_pc16_four_way_joint_distribution_str.csv", index=False)
+
+# {'East Midlands': 1, 'Eastern': 2, 'London': 3, 'North East': 4, 'North West': 5, 'South East': 6, 'South West': 7, 'Wales': 8, 'West Midlands': 9, 'Yorkshire & the Humber': 10}
