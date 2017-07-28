@@ -87,6 +87,22 @@ earnings.set_value(572, 'PCON16NM', 'Ynys Môn')
 earnings = pd.merge(earnings, lookup, how='left', on = ['PCON16NM'])
 earnings.rename(columns={'Self employment income mean': 'self_employ_income_mean', 'Self employment income median': 'self_employ_income_median', 'Employment income mean': 'employ_income_mean', 'Employment income median': 'employ_income_median', 'Total income mean': 'income_mean', 'Total income median': 'income_median'}, inplace=True)
 earnings = earnings[['PA_ID', 'self_employ_income_mean', 'self_employ_income_median', 'employ_income_mean', 'employ_income_median', 'income_mean', 'income_median']]
-earnings.to_csv("/Users/davidminarsch/Desktop/Census11/earnings_15_by_constituency.csv", index=False)
 earnings = earnings.sort_values(by=['PA_ID'], ascending=[True])
 earnings = earnings.reset_index(drop=True)
+earnings.to_csv("/Users/davidminarsch/Desktop/Census11/earnings_15_by_constituency.csv", index=False)
+
+# Hanretty data:
+data11 = pd.read_csv("/Users/davidminarsch/Desktop/GE2017/election4castUK/data/constituency/canonical_seatvars_2011census.csv")
+data11 = data11[data11['region'] != 'Scotland']
+data11 = data11[['GSSCode', 'log.earn', 'nonwhite', 'relig.christian', 'relig.refused', 'relig.none', 'relig.other', 'age', 'private', 'owns', 'female', 'married', 'education', 'socgrd', 'log.density']]
+data11.rename(columns={'GSSCode': 'PCON16CD'}, inplace=True)
+data11 = pd.merge(data11, lookup, how='left', on = ['PCON16CD'])
+data11 = data11[['PA_ID', 'log.earn', 'nonwhite', 'relig.christian', 'relig.refused', 'relig.none', 'relig.other', 'age', 'private', 'owns', 'female', 'married', 'education', 'socgrd', 'log.density']]
+data11 = data11.sort_values(by=['PA_ID'], ascending=[True])
+data11 = data11.reset_index(drop=True)
+data11.to_csv("/Users/davidminarsch/Desktop/Census11/hanretty_constituency_data_2011.csv", index=False)
+
+constituencies = lookup[['PA_ID', 'PCON16CD', 'PCON16NM', 'region']]
+constituencies = constituencies[constituencies['region'] != 'Scotland']
+constituencies = constituencies[constituencies['region'] != 'Northern Ireland']
+constituencies.to_csv("/Users/davidminarsch/Desktop/Census11/constituencies_england_wales.csv", index=False)

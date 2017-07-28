@@ -1,0 +1,43 @@
+## Analysis of complex survey samples; T. Lumley
+
+Complications in a complex survey sample result from
+- stratification: dividing the population into relatively homogenous groups (strata) and sampling a predetermined number from each stratum will **increase precision** for a given sample size.
+- clustering: dividing the population into groups and sampling from a random subset of these groups (eg geographical locations/ i.e. random across! groups) will **decrease precision** for a given sample size but often **increase precision** for a given cost.
+- unequal sampling: sampling small subpopulations more heavily will tend to **increase precision** relative to a simple random sample of the same size.
+- finite population: sampling all of a population or stratum results in an estimate with no variability, and sampling a substantial fraction of a stratum results in decreased variability in comparison to a sample from an infinite population.
+
+
+Analysing a stratified sample as if it were a simple random sample will overestimate the standard errors, analysing a cluster sample as if it were a simple random sample will usually underestimate the standard errors, as will analysing an unequal probability sample as if it were a simple random sample. Note that the *design effect* and *misspecification effect* agree (qualitatively) for stratification and clustering but not for unequal probability sampling.
+
+The largest clusters, which are sampled independently within a stratum, are called PSUs (primary sampling units).
+
+This inverse-probability weighting has generally the same effect on point estimates as the more familiar inverse-variance weighting, but very different effects on standard errors.
+
+Stratified sampling requires a stratified sampling frame, that is, full prior knowledge of the stratum for every primary sampling unit in the population.
+
+In some situations the joint population distribution of a number of stratifying factors is not known but their marginal distributions are known. It would be desirable to post-stratify on each of these factors, but matching the marginal distribution of one factor may unmatch the marginal distribution of others. However, it is typically the case that iteratively post-stratifying on each factor in turn will lead to a converging sets of weights where the marginal distribution of each factor matches the population margins. This iterative algorithm is called raking.
+
+## Documentation of ESS Post-Stratification Weights:
+
+Post-stratification weights are a weighting system that uses auxiliary information to **reduce the sampling error** and **potential non-response bias**, in comparison to pure design based weights.
+
+The post-stratification weights are obtained by adjusting the design weights in such a way that they will replicate the distribution of the so called control data. As control data the two marginal population distribution have been used, one for the cross-classification of age (i.e age classes), gender, and education (GAE) and the second one for the variable region.
+
+The advantage of post-stratification weights over design weights is that:
+- They can reduce the sampling error, if it can be expected that there is some (linear) dependency between the variable of interest and the variables used for poststratification.
+- They can reduce an existing non-response bias if there is a (linear) dependency between response and the variables used for post-stratification.
+
+## Weighting European Social Survey Data:
+
+Design weights account for differences in inclusion probabilities and thus correct for bias that is introduced by the sampling design. However, other errors sources remain, including **sampling error** (related to attempting to measure only a fraction of the population) and **non-response error** (which may lead to a systematic over- or under-representation of people with certain characteristics).
+
+Post-stratification weights are a more sophisticated weighting strategy that uses auxiliary information to reduce the sampling error and potential non-response bias.
+
+Population size weights are used when examining data for two or more countries combined.
+
+Applying weights will change any measures based on the data, such as:
+- the distribution of variables (descriptive statistics);
+- percentages in cross-tabulations (tabulations);
+- average measures such as the mean or mode;
+- measures of spread and variance, such as the standard deviation or standard error of a variable, or the margin of error;
+- tests of statistical significance for differences between e.g. countries or years.

@@ -1,0 +1,44 @@
+# Estimating Constituency Opinion in Britain Technical Report; Hanretty
+
+Model overview:
+
+- binary political opinion variable y
+- goal: estimate the proportion of citizens with a score of y = 1 in constituency j \in {1, . . . , 632}
+- (national) survey of size N
+- for each respondent i in this survey, we have measures of constituency location j[i], political opinion y_i, and {1, . . . , K} categorical demographic variables.
+- each of these respondent-level demographic variables takes on a value l_k from a set of L_k possible values
+- matrix of constituency-level variables X_j
+- square 632 x 632 spatial adjacency matrix whose elements w_jj' are equal to one where constituency j and constituency j' are geographic neighbours, and zero otherwise.
+
+Pr[y_i = 1] = logit^(-1)(a^0 + a^1_l1[i] + a^2_l2[i] + . . . + a^K_lK[i] +  f_j[i] +  v_j[i])
+
+a^0 is a grand intercept and a^k_lk[i] is the effect of individual i being in category lk of demographic variable k.
+
+f_j is a spatially autocorrelated constituency random effect j whose distribution conditions on the value of  f in neighbouring constituencies.
+
+v_j is a constituency random effect which is not spatially correlated, but which is modelled hierarchically as a linear function of constituency-level variables.
+
+f_j have a conditionally autoregressive (CAR) distribution
+
+non-spatially correlated random effects v_j constituency are modelled as N(X_jb+d_region[j], s_v^2); b is a vector of coefficients, and d_region is a random effect for the government office region in which constituency j is located
+
+a_0 is assigned a flat prior
+
+For a^k where L_k = 2, we set a^k_l1 = 0 and assume a^k_l2 ~ N(0,100). For a^k where L_k > 2, the a^k terms are modelled as draws from a common normal distribution with mean zero and standard deviation  s_a^k , where  s_a^k ~ Unif(0, 2).
+
+The  b coefficients are assigned independent flat priors. The region random e↵ects are drawn from a normal distribution with mean zero and standard deviation   , where    ⇠ Unif(0,2)
+
+2. step: poststratification
+
+For every citizen type, indexed s, in every constituency j the estimated regression model yields a fitted probability p_sj that y_sj = 1:
+
+p_sj =logit^(-1)(A^0 +A^1_l1[s] +A^2_l2[s] +...+A^K_lK[s] + f_j[i] + v_j[i])
+
+These fitted probabilities are combined with information on the population frequency of each citizen type in each constituency, N_sj, to generate constituency estimates p_j.
+
+p_j = sum_s(N_sjp_sj)/sum_s(N_sj)
+
+We run three separate chains of length 60,000 iterations each, the first 10,000 of which are discarded as burnin. We thin the resulting chain by a factor of 100.
+
+Our estimation procedure thus yields 1,500 draws from the posterior distribution of av- erage opinion for each constituency. Our point estimate of average opinion in a constituency is the mean value of these draws. We also summarise our uncertainty about average opinion by supplying posterior 95% confidence interval bounds, which are simply the 0.025 and 0.975 quantiles of the posterior sample.
+
