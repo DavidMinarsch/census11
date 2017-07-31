@@ -40,6 +40,8 @@ ge_15_share = ge_15_share.sort_values(by=['PA_ID'], ascending=[True])
 ge_15_share = ge_15_share.reset_index(drop=True)
 ge_15.to_csv("/Users/davidminarsch/Desktop/Census11/2015_results_england_wales_by_constituency.csv", index=False)
 ge_15_share.to_csv("/Users/davidminarsch/Desktop/Census11/2015_results_england_wales_by_constituency_shares.csv", index=False)
+ge_15['year'] = 2015
+ge_15.rename(columns={'PA_ID': 'pa_id'}, inplace=True)
 
 ge_10 = pd.read_csv("/Users/davidminarsch/Desktop/Census11/GE2010.csv")
 ge_10 = ge_10[['Press Association Reference', 'Constituency Name', 'Region', 'Electorate', 'Votes', 'Con', 'Lab', 'LD', 'Grn', 'UKIP','PC']]
@@ -76,6 +78,13 @@ ge_10_share = ge_10_share.sort_values(by=['PA_ID'], ascending=[True])
 ge_10_share = ge_10_share.reset_index(drop=True)
 ge_10.to_csv("/Users/davidminarsch/Desktop/Census11/2010_results_england_wales_by_constituency.csv", index=False)
 ge_10_share.to_csv("/Users/davidminarsch/Desktop/Census11/2010_results_england_wales_by_constituency_shares.csv", index=False)
+ge_10['year'] = 2010
+ge_10.rename(columns={'PA_ID': 'pa_id'}, inplace=True)
+
+ge = ge_10.append(ge_15)
+ge = ge.reset_index(drop=True)
+ge = ge[['year', 'electorate', 'votes', 'non_votes', 'con_votes', 'lab_votes', 'libdem_votes', 'green_votes', 'ukip_votes', 'plaid_votes', 'other_votes', 'pa_id']]
+ge.to_csv("/Users/davidminarsch/Desktop/Census11/ge_results_england_wales_by_constituency.csv", index=False)
 
 earnings = pd.read_csv("/Users/davidminarsch/Desktop/Census11/earnings_15.csv", encoding='latin-1')
 cols = ['Self employment income mean', 'Self employment income median', 'Employment income mean', 'Employment income median', 'Pension income mean', 'Pension income median', 'Total income mean', 'Total income median']
@@ -101,6 +110,9 @@ data11 = data11[['PA_ID', 'log.earn', 'nonwhite', 'relig.christian', 'relig.refu
 data11 = data11.sort_values(by=['PA_ID'], ascending=[True])
 data11 = data11.reset_index(drop=True)
 data11.to_csv("/Users/davidminarsch/Desktop/Census11/hanretty_constituency_data_2011.csv", index=False)
+data11.rename(columns={'PA_ID': 'pa_id', 'log.earn': 'log_median_earning', 'relig.christian': 'religion_christian', 'relig.refused': 'religion_refused', 'relig.none': 'religion_none', 'relig.other': 'religion_other', 'private': 'private_sector_employment', 'owns': 'owns_housing', 'socgrd': 'mean_social_grade', 'log.density': 'log_density'}, inplace=True)
+data11 = data11[['log_median_earning', 'religion_christian', 'religion_refused', 'religion_none', 'religion_other', 'private_sector_employment', 'owns_housing', 'mean_social_grade', 'log_density', 'pa_id']]
+data11.to_csv("/Users/davidminarsch/Desktop/Census11/hanretty_constituency_data_2011_subset.csv", index=False)
 
 constituencies = lookup[['PA_ID', 'PCON16CD', 'PCON16NM', 'region']]
 constituencies = constituencies[constituencies['region'] != 'Scotland']
