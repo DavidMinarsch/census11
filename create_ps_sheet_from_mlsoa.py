@@ -111,12 +111,12 @@ census_11.to_csv(script_dir + '/output/census_11_pc16_four_way_joint_distributio
 census_11_str.to_csv(script_dir + '/output/census_11_pc16_four_way_joint_distribution_str.csv', index=False)
 
 # apply platform mappings
-sex_map = {'female': 2, 'male': 1, 'other': 0, 'prefer not to say': 9}
+sex_map = {'male': 0, 'female': 1, 'other': 2, 'prefer not to say': 9}
 age_map = {'Age 15 and below': 0, 'Age 16 to 17': 1, 'Age 18 to 19': 2, 'Age 20 to 24': 3, 'Age 25 to 29': 4,
            'Age 30 to 34': 5, 'Age 35 to 39': 6, 'Age 40 to 44': 7, 'Age 45 to 49': 8, 'Age 50 to 54': 9,
            'Age 55 to 59': 10, 'Age 60 to 64': 11, 'Age 65 to 69': 12, 'Age 70 to 74': 13, 'Age 75 to 79': 14,
            'Age 80 to 84': 15, 'Age 85 and over': 16, 'Prefer not to say': 19}
-ethnicity_map = {'asian': 1, 'black': 2, 'mixed': 3, 'other': 4, 'white': 5, 'prefer not to say': 9}
+ethnicity_map = {'white': 0, 'asian': 1, 'black': 2, 'mixed': 3, 'other': 4, 'prefer not to say': 9}
 census_11_str['sex'] = census_11_str['sex'].apply(lambda x: sex_map[x])
 census_11_str['age'] = census_11_str['age'].apply(lambda x: age_map[x])
 census_11_str['ethnicity'] = census_11_str['ethnicity'].apply(lambda x: ethnicity_map[x])
